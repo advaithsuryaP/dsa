@@ -10,7 +10,7 @@ Context:
 
 Solution:
     [Solution One]: We need to use a hashmap to count the frequency of each character in both the strings and then check for equality.
-    [Solution Two]: A better solution, is to simply sort the strings and then check for equality.
+    [Solution Two]: Another solution, is to simply sort the strings and then check for equality but this is less efficient as it's nlog(n) time complexity.
 '''
 from collections import Counter
 class Solution:
