@@ -9,7 +9,6 @@ Input: strs = ["lint","code","love","you"]
 Output: ["lint","code","love","you"]
 
 '''
-from operator import index
 from typing import List
 class Solution:
 
