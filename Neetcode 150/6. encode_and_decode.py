@@ -1,18 +1,39 @@
+'''
+@Link: https://neetcode.io/problems/string-encode-and-decode?list=neetcode150'
+@difficulty: Medium
+
+Problem Statement: Design an algorithm to encode a list of strings into a single string and decode the string back to the original list of strings.
+
+Example 1:
+Input: strs = ["lint","code","love","you"]
+Output: ["lint","code","love","you"]
+
+'''
+from operator import index
+from typing import List
 class Solution:
 
-    def __init__(self):
-        self.word_length_counter = []
-
     def encode(self, strs: List[str]) -> str:
+        encoded = ''
         for word in strs:
-            self.word_length_counter.append(len(word))
-        encoded = ''.join(strs)
+            encoded += str(len(word)) + '#' + word
         return encoded
 
     def decode(self, s: str) -> List[str]:
         decoded = list()
-        for word_length in self.word_length_counter:
-            decoded_word = s[0:word_length]
+        while len(s):
+            index_of_hash = s.index('#')
+            length_of_number = len(s[0:index_of_hash])
+            length_of_word = int(s[0:index_of_hash])
+            offset = length_of_number + 1 # 1 indicates the # itself
+            decoded_word = s[offset:length_of_word+offset]
             decoded.append(decoded_word)
-            s = s[word_length:]
+            s = s[length_of_word+offset:]
         return decoded
+
+
+solution = Solution()
+encoded = solution.encode(["we","say",":","yes","!@#$%^&*()"])
+print(encoded)
+decoded = solution.decode(encoded)
+print(decoded)
