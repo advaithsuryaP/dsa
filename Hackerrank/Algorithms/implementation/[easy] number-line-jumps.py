@@ -1,4 +1,7 @@
 '''
+@Link: https://www.hackerrank.com/challenges/kangaroo/problem?isFullScreen=true
+@Difficulty: Easy
+
 Problem:
 Given the starting position and jump distance of two kangaroos, determine if they will ever land 
 on the same position at the same time.

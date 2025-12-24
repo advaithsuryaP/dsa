@@ -1,4 +1,7 @@
 '''
+@Link: https://www.hackerrank.com/challenges/between-two-sets/problem?isFullScreen=true
+@Difficulty: Hard
+
 Problem:
 Given two sets of integers, find the numbers that satisfy the following conditions:
 1. The elements of the first array are the factors of the numbers being considered.

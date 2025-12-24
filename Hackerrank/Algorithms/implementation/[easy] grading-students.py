@@ -1,4 +1,7 @@
 '''
+@Link: https://www.hackerrank.com/challenges/grading/problem?isFullScreen=true
+@Difficulty: Easy
+
 Given an array of integers, round each element to the nearest multiple of 5.
 Example:
 Input: [73, 67, 38, 33]

@@ -1,4 +1,7 @@
 '''
+@Link: https://www.hackerrank.com/challenges/apple-and-orange/problem?isFullScreen=true
+@Difficulty: Easy
+
 Problem: 
 Given the start and end points of a house, and the start and end points of a tree, and the number of apples and oranges that fell, 
 find the number of apples and oranges that fell on the house. The apple and orange trees are on the same line and the house is on the same line.
