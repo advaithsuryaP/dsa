@@ -13,7 +13,7 @@ Output: [[-1, -1, 2], [-1, 0, 1]]
 '''
 
 from typing import List
-def three_sum(nums: List[int], equals: int) -> List[int]: 
+def three_sum(nums: List[int]) -> List[int]: 
     result: list[int] = []
     
     nums.sort()
@@ -25,7 +25,7 @@ def three_sum(nums: List[int], equals: int) -> List[int]:
         
         if k > 0: continue
 
-        target: int = equals - k 
+        target: int = -k 
 
         left: int = index + 1 
         right: int = len(nums) - 1
@@ -53,8 +53,8 @@ def three_sum(nums: List[int], equals: int) -> List[int]:
         
 
 
-print(three_sum([-1, 0, 1, 2, -1, -4], 0)) # [[-1, -1, 2], [-1, 0, 1]]
-print(three_sum([-1,0,1,2,-1,-1], 0)) # [[-1,-1,2],[-1,0,1]]
+print(three_sum([-1, 0, 1, 2, -1, -4])) # [[-1, -1, 2], [-1, 0, 1]]
+print(three_sum([-1,0,1,2,-1,-1])) # [[-1,-1,2],[-1,0,1]]
 
 '''
 PROBLEM
