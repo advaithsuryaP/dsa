@@ -28,18 +28,112 @@ def max_area(heights: List[int]) -> int:
         area: int = width * height
 
         if left_height < right_height:
-            print(f"heights[{left}]({left_height}) is less than heights[{right}]({right_height}), increasing left pointer from {left} to {left + 1}")
             left += 1
         else: 
-            print(f"heights[{left}]({left_height}) is more than or equal to heights[{right}]({right_height}), decreasing right pointer from {right} to {right - 1}")
             right -= 1
 
         if area > result:
             result = area
-            print(f"Updating result: {result}")
+
+        # result = max(result, area) The above if condition can also be summarized like this
 
     return result
 
 
 print(max_area([3, 4, 1, 2, 2, 4, 1, 3, 2])) # 21
 print(max_area([1, 2, 1])) # 2
+
+'''
+PROBLEM
+-------
+Given an array of heights where each value represents a vertical wall,
+choose two walls that can hold the maximum amount of water.
+
+Water held = width × height
+- width = distance between the two indices
+- height = min(height[left], height[right]) because water overflows at the shorter wall
+
+Goal: return the maximum possible area.
+
+
+NAIVE APPROACH
+--------------
+Brute force:
+- Try every possible pair (i, j)
+- Compute area = (j - i) * min(h[i], h[j])
+- Track the maximum
+
+Time complexity: O(n²)
+Space complexity: O(1)
+
+This works, but is too slow for large inputs.
+
+
+KEY INSIGHT
+-----------
+The width is largest when we start with the farthest two walls.
+Since width can only decrease as pointers move inward,
+the only way to increase area is to find a taller wall.
+
+Critical observation:
+- The area is always limited by the shorter wall.
+- If we keep the shorter wall and reduce width, the area can never improve.
+- Therefore, once a wall is identified as the shorter wall, it can be discarded safely.
+
+
+OPTIMIZED TWO-POINTER APPROACH
+------------------------------
+1. Place two pointers:
+   - left at index 0
+   - right at index n - 1
+
+2. Compute the area formed by these two walls.
+
+3. Move the pointer pointing to the shorter wall:
+   - Because this is the ONLY move that might increase height.
+   - Moving the taller wall cannot improve area (width shrinks, height stays capped).
+
+4. If heights are equal:
+   - Move either pointer (both choices are safe).
+   - No lookahead or peeking is needed.
+
+5. Repeat until left < right.
+
+This guarantees:
+- Every discarded configuration is provably worse
+- Each pointer moves at most n times
+
+
+WHY THIS WORKS (THE "MAGIC")
+---------------------------
+If heights[left] <= heights[right]:
+- Any future container using left as a wall will have:
+  - Smaller width
+  - Height ≤ heights[left]
+- So none can beat the current area
+→ Safe to move left
+
+Same logic applies symmetrically for the right pointer.
+
+The algorithm works by ELIMINATION, not prediction.
+
+
+EDGE CASES
+----------
+- Equal heights → move either pointer
+- Very small arrays (length < 2) → area is 0
+- Heights can vary arbitrarily; sorting must NOT be used (indices matter)
+
+
+COMPLEXITY
+----------
+Time:  O(n)  — each pointer moves once
+Space: O(1)  — constant extra space
+
+
+MENTAL MODEL TO REMEMBER
+------------------------
+"Start wide. Sacrifice width only when you can potentially gain height.
+Always discard the shorter wall — it can never help you again."
+
+'''
