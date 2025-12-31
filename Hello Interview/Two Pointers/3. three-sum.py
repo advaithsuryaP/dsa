@@ -56,3 +56,69 @@ def three_sum(nums: List[int], equals: int) -> List[int]:
 print(three_sum([-1, 0, 1, 2, -1, -4], 0)) # [[-1, -1, 2], [-1, 0, 1]]
 print(three_sum([-1,0,1,2,-1,-1], 0)) # [[-1,-1,2],[-1,0,1]]
 
+'''
+PROBLEM
+-------
+Given an integer array nums, find all unique triplets (i, j, k) such that:
+- i, j, k are distinct indices
+- nums[i] + nums[j] + nums[k] == target
+- No duplicate triplets in the output
+
+
+NAIVE APPROACH
+--------------
+Use three nested loops to try every triplet.
+Time: O(n³)
+Correct but too slow.
+
+
+KEY INSIGHT
+-----------
+3Sum is NOT a three-pointer problem.
+
+Fix one element (k), then reduce the problem to:
+    Two Sum on the remaining array with target = (equals - k)
+
+This restores monotonicity and allows pointer elimination.
+
+
+OPTIMIZED APPROACH
+------------------
+1. Sort the array.
+2. Loop over each index as the fixed element k.
+3. Skip duplicate k values.
+4. For each k:
+   - Use two pointers (left = k+1, right = end).
+   - Compare nums[left] + nums[right] to target.
+   - Move pointers based on comparison.
+5. When a valid triplet is found:
+   - Add it once.
+   - Move both pointers.
+   - Skip duplicate values at left and right.
+6. Continue until pointers cross.
+
+
+WHY DUPLICATE SKIPPING WORKS
+----------------------------
+Because the array is sorted:
+- Duplicate values are adjacent.
+- Skipping them at pointer movement prevents duplicate triplets
+  from ever being generated.
+- No set or post-filtering is needed.
+
+
+COMPLEXITY
+----------
+Time:  O(n²)
+Space: O(1) extra (excluding output)
+
+
+MENTAL MODEL
+------------
+"Fix one value. Solve Two Sum on the rest.
+Sorted order lets me discard impossible and duplicate cases safely."
+
+If you ever feel tempted to use a set:
+→ you haven’t fully exploited ordering yet.
+
+'''
