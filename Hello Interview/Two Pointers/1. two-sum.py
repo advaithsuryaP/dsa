@@ -7,27 +7,31 @@ Input: nums = [1,3,4,6,8,10,13], target = 13
 Output: True (3 + 10 = 13)
 Input: nums = [1,3,4,6,8,10,13], target = 6
 Output: False
+
+@refer: https://www.hellointerview.com/learn/code/two-pointers/overview
 '''
 
 from typing import List
 def twoSum(nums: List[int], target) -> bool:
     nums.sort()
     
-    i: int = 0
-    j: int = len(nums) - 1
+    left: int = 0
+    right: int = len(nums) - 1
 
-    while( i is not j ):
-        calculated_sum: int = nums[i] + nums[j]
-        if calculated_sum > target:
-            j -= 1
-        if calculated_sum < target:
-            i += 1
+    while left < right:
+        calculated_sum: int = nums[left] + nums[right]
         if calculated_sum == target:
             return True
-    else: return False
+        
+        if calculated_sum < target:
+            left += 1
+        else:
+            right -= 1
+    return False
         
 
 
 print(twoSum([1,3,4,6,8,10,13], 13)) # True
 print(twoSum([1,3,4,6,8,10,13], 6)) # False
+
 
