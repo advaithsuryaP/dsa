@@ -65,3 +65,154 @@ def sort_colors(nums: List[int]) -> List[int]:
     return nums
 
 print(sort_colors([2,1,2,0,1,0,1,0,1])) # [0,0,0,1,1,1,1,2,2]
+
+"""
+PROBLEM
+-------
+Sort an array containing only 0s, 1s, and 2s in-place such that:
+- All 0s come first
+- Then all 1s
+- Then all 2s
+- No built-in sort
+- O(1) extra space
+
+This is the classic "Dutch National Flag" problem.
+
+
+MY LEARNING JOURNEY
+-------------------
+
+I initially approached this problem by reusing a pattern I had just learned:
+- Stable compaction using two pointers
+- Multiple passes over the array
+
+That approach WORKED and was correct:
+1) First pass: move all 0s to the front
+2) Second pass: move all 1s after the 0s
+3) 2s naturally end up at the end
+
+This solution:
+- Is O(n)
+- Is in-place
+- Is correct
+
+BUT — this problem is not just about correctness.
+It is specifically designed to test whether I understand how to maintain
+MULTIPLE REGIONS SIMULTANEOUSLY during a SINGLE PASS.
+
+
+WHY MY FIRST "ONE-PASS" ATTEMPT WAS WRONG
+-----------------------------------------
+
+I tried using:
+- one pointer for 0s
+- one pointer for 2s
+- a for-loop scanning pointer
+
+The bug:
+- I used a `for` loop
+- When swapping a 2 with the end, I blindly advanced the scanning pointer
+
+This is incorrect because:
+- When swapping with the right (2-region),
+  the value that comes back is UNKNOWN
+- Advancing the scanning pointer skips processing that value
+
+This mistake is subtle and very common.
+The problem exists to teach exactly this rule.
+
+
+THE KEY INSIGHT (THIS IS THE CORE LESSON)
+-----------------------------------------
+
+There are THREE regions in the array at all times:
+
+    [ 0s | 1s | unknown | 2s ]
+
+We must maintain this invariant while scanning.
+
+This requires THREE pointers with STRICT roles:
+
+- low     → next position where a 0 should go
+- current → element currently being examined
+- high    → next position where a 2 should go
+
+
+THE GOLDEN RULE (MEMORIZE THIS)
+-------------------------------
+
+Swap-with-left  (0) → advance BOTH pointers
+Swap-with-right (2) → advance ONLY the boundary pointer, NOT current
+
+Why?
+
+- After swapping with low:
+    the incoming value is already processed → safe to move on
+
+- After swapping with high:
+    the incoming value is UNKNOWN → must be re-checked
+
+
+FINAL CORRECT APPROACH (DUTCH NATIONAL FLAG)
+--------------------------------------------
+
+Algorithm:
+1) Initialize:
+    low = 0
+    current = 0
+    high = len(nums) - 1
+
+2) While current <= high:
+    - If nums[current] == 0:
+        swap(nums[current], nums[low])
+        current += 1
+        low += 1
+
+    - If nums[current] == 1:
+        current += 1
+
+    - If nums[current] == 2:
+        swap(nums[current], nums[high])
+        high -= 1
+        (DO NOT increment current)
+
+This guarantees:
+- Single pass
+- In-place
+- O(n) time
+- O(1) space
+- Correct ordering
+
+
+WHY THIS PROBLEM MATTERS
+------------------------
+
+This problem taught me that:
+
+- "Two pointers" is NOT one pattern
+- There are multiple pointer roles:
+    * opposing pointers
+    * slow-fast pointers
+    * boundary + scanning pointers
+
+It also taught me to think in terms of:
+- invariants
+- regions
+- safety of pointer movement
+
+This understanding generalizes to:
+- partition problems
+- multi-category grouping
+- in-place rearrangements
+
+
+FINAL TAKEAWAY
+--------------
+
+If I ever get confused again, remember:
+
+    Swap left → move forward
+    Swap right → re-check
+
+That single sentence is the heart of the Dutch National Flag problem.
+"""
