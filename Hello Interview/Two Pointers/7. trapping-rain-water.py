@@ -103,6 +103,105 @@ def trapping_rain_water(height: List[int]) -> int:
             
     return result
 
-
-
 print(trapping_rain_water([3, 4, 1, 2, 2, 5, 1, 0, 2])) # 10
+
+"""
+TRAPPING RAIN WATER — FINAL NOTES TO FUTURE ME
+==============================================
+
+This problem took me 2 days. That is NOT a failure.
+This problem is hard because it breaks the instinct of
+"compute per index".
+
+--------------------------------------------------
+THE TRUE DEFINITION (BRUTE FORCE)
+--------------------------------------------------
+For each index i:
+    water[i] = min(max_left_from_i, max_right_from_i) - height[i]
+
+This is correct physics.
+But computing max_left and max_right PER index is O(n²).
+
+--------------------------------------------------
+WHY THE TWO-POINTER SOLUTION EXISTS
+--------------------------------------------------
+The key realization is NOT about computing water per index.
+It is about deciding WHEN an index’s water level is finalized.
+
+Water is always limited by the SHORTER boundary.
+
+--------------------------------------------------
+CRITICAL INVARIANT
+--------------------------------------------------
+We maintain:
+    left pointer
+    right pointer
+    left_max  = max height seen so far from the left
+    right_max = max height seen so far from the right
+
+At every step:
+    We process the side whose current height is smaller.
+
+WHY?
+Because the smaller side is the bottleneck.
+The opposite side is already guaranteed to be tall enough.
+
+--------------------------------------------------
+WHAT "PROCESSING A SIDE" MEANS
+--------------------------------------------------
+Processing a side means:
+    - The limiting boundary for that index is finalized
+    - We can safely add trapped water
+    - We move that pointer inward
+
+We do NOT process indices arbitrarily.
+We process boundaries when they become safe.
+
+--------------------------------------------------
+THE TWO CASES (THIS IS THE ENTIRE ALGORITHM)
+--------------------------------------------------
+While left < right:
+
+1) If height[left] <= height[right]:
+       left_max = max(left_max, height[left])
+       water += left_max - height[left]
+       left += 1
+
+   Reason:
+       right side is guaranteed >= height[left]
+       left_max determines water level
+
+2) Else:
+       right_max = max(right_max, height[right])
+       water += right_max - height[right]
+       right -= 1
+
+   Reason:
+       left side is guaranteed >= height[right]
+       right_max determines water level
+
+--------------------------------------------------
+WHAT I KEPT GETTING WRONG INITIALLY
+--------------------------------------------------
+- Thinking I must compute BOTH max_left and max_right for each index
+- Treating height[right] as the boundary instead of right_max
+- Thinking pointer comparison decides IF water exists
+  (it only decides WHICH SIDE is safe to process)
+
+--------------------------------------------------
+FINAL MENTAL MODEL
+--------------------------------------------------
+We never guess future heights.
+We only process a side when its opposite boundary is guaranteed.
+
+Symmetric formula.
+Asymmetric execution.
+
+--------------------------------------------------
+WHY THIS IS THE HARDEST TWO-POINTER PROBLEM
+--------------------------------------------------
+Because it requires trusting an invariant
+instead of computing explicit values per index.
+
+Once this clicks, all other two-pointer problems feel easier.
+"""
