@@ -84,23 +84,48 @@ def trapping_rain_water(height: List[int]) -> int:
     # return result
 
     # Approach 3: The two-pointer solution
-    result: int = 0
-    left: int = 0
-    right: int = len(height) - 1
+    # result: int = 0
+    # left: int = 0
+    # right: int = len(height) - 1
     
-    max_left_height: int = 0
-    max_right_height: int = height[right]
+    # max_left_height: int = 0
+    # max_right_height: int = height[right]
 
-    while left < right:
-        if height[left] <= height[right]:
-            max_left_height = max(max_left_height, height[left])
-            result += max_left_height - height[left]
-            left += 1
-        else:
-            max_right_height = max(max_right_height, height[right])
-            result += max_right_height - height[right]
-            right -= 1
+    # while left < right:
+    #     if height[left] <= height[right]:
+    #         max_left_height = max(max_left_height, height[left])
+    #         result += max_left_height - height[left]
+    #         left += 1
+    #     else:
+    #         max_right_height = max(max_right_height, height[right])
+    #         result += max_right_height - height[right]
+    #         right -= 1
             
+    # return result
+
+    # Approach 4: The O(n) solution that makes this problem incredible easier
+    left_wall: list[int] = [0] * len(height)
+    right_wall: List[int] = [0] * len(height)
+
+    max_left: int = 0
+    max_right: int = 0
+
+    result: int = 0
+
+    for i in range(len(height)):
+        j = - i - 1
+
+        max_left = max(max_left, height[i])
+        max_right = max(max_right, height[j])
+
+        left_wall[i] = max(height[i], max_left)
+        right_wall[j] = max(height[j], max_right)
+
+    for index in range(len(height)):
+        max_height: int = min(left_wall[index], right_wall[index])
+        water_blocks: int = max(0, max_height - height[index])
+        result += water_blocks
+    
     return result
 
 print(trapping_rain_water([3, 4, 1, 2, 2, 5, 1, 0, 2])) # 10
