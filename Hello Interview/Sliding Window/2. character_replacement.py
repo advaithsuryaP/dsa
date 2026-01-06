@@ -13,40 +13,22 @@ Explanation: Replace the first 'A' and 'C' with 'B' to form "BBBBBCDD". The long
 '''
 
 def character_replacement(s: str, k: int) -> int:
-    result: float = float('-inf')
-
+    result: int = 0
+    
     left: int = 0
     
-    occurrences: dict[str, int] = dict[str, int]()
-
     max_frequency: int = 0
-    window_size: int = 0
+    occurrences: dict[str, int] = dict[str, int]()
+    
     for right in range(len(s)):
-        print(f"----------- Iterating {s[right]} -----------")
-        
-        
         occurrences[s[right]] = occurrences.get(s[right], 0) + 1
+        max_frequency = max(occurrences[s[right]], max_frequency)
 
-        while window_size - max_frequency > k:
-            # Window is invalid here
+        while (right - left + 1) - max_frequency > k:
             occurrences[s[left]] -= 1
-            print(f"Invalid window. Decremented the count of {s[left]} in {occurrences}")
             left += 1
-            window_size = right - left + 1
-            max_frequency_key: str = max(occurrences, key=occurrences.get)
-            max_frequency = occurrences[max_frequency_key]
-
-
-        max_frequency_key: str = max(occurrences, key=occurrences.get)
-        max_frequency = occurrences[max_frequency_key]
         
-        window_size = right - left + 1
-        result = max(result, window_size)
-        
-        
-        print(f"Window Size: {window_size}, Max Frequency: {max_frequency}, Occurrences: {occurrences} || Result: {result}")
-
-
+        result = max(result, right - left + 1)
 
     return result
         
