@@ -13,6 +13,17 @@ Explanation: Replace the first 'A' and 'C' with 'B' to form "BBBBBCDD". The long
 '''
 
 def character_replacement(s: str, k: int) -> int:
-    return
+    result: int = 0
+
+    left: int = 0
+    occurences: dict[str, int] = dict()
+
+    for right in range(len(s)):
+        # while s[right] not in occurences and k == 0:
+        #     continue
+
+        occurences[s[right]] = occurences.get(s[right], 0) + 1
+        print(occurences)
+
 
 print(character_replacement("BBABCCDD", 2)) # 5
