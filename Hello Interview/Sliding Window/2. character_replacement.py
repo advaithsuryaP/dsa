@@ -16,6 +16,9 @@ def character_replacement(s: str, k: int) -> int:
     result: int = 0
     
     left: int = 0
+
+    a: list = []
+    a
     
     max_frequency: int = 0
     occurrences: dict[str, int] = dict[str, int]()
