@@ -24,6 +24,10 @@ def character_replacement(s: str, k: int) -> int:
 
         occurences[s[right]] = occurences.get(s[right], 0) + 1
         print(occurences)
+    
+    max_occurrence: str = max(occurences, key=occurences.get)
+    print(max_occurrence)
+    
 
 
 print(character_replacement("BBABCCDD", 2)) # 5
