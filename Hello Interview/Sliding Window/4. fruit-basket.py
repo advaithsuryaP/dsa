@@ -5,6 +5,7 @@ You can start collecting fruits from any position in the array, but you must sto
 The goal is to find the longest subarray where at most two different types of fruits are collected.
 '''
 
+from typing import List
 def fruit_basket(fruits: List[int]) -> int:
     result: int = 0
     return
